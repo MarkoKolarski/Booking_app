@@ -1,0 +1,41 @@
+@startuml
+hide footbox
+
+actor "User" as U
+participant "TourRequestStatisticsViewModel" as TRSVM
+participant "TourRequest" as TRM
+participant "CreateTourViewModel" as CTVM
+participant "TourService" as TS
+participant "TourRepository" as TR
+participant "TourRequestService" as TRS
+participant "TourRequestRepository" as TRR
+
+activate TRSVM
+
+TRSVM -> TRS ++: GetMostWantedLocationAndLanguage()
+TRS -> TRR ++: GetMostWantedLocationAndLanguage()
+TRR --> TRS --: (mostWantedLocation, mostWantedLanguage)
+TRS --> TRSVM --: (mostWantedLocation, mostWantedLanguage)
+
+U -> TRSVM : CreateTour(string label)
+note left : selects button\nwhich determines\nlabel
+
+TRSVM -> TRM **: new TourRequest()
+activate TRM
+alt label == "location"
+    TRSVM -> TRM : TourRequest.Location = mostWantedLocation
+else label == "language"
+    TRSVM -> TRM : TourRequest.Language = mostWantedLanguage
+end
+TRSVM -> CTVM **: new CreateTourViewModel(TourRequest, userId)
+
+activate CTVM
+
+CTVM -> TS ++: Save(tour)
+note left : create tour logic
+TS -> TR ++: Save(tour)
+TR --> TS --: tour
+TS --> CTVM --: tour
+CTVM --> TRSVM --: true
+
+@enduml

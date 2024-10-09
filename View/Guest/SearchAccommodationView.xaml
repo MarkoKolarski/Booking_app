@@ -1,0 +1,203 @@
+﻿<Window x:Class="BookingApp.View.Guest.SearchAccommodationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp.View"
+        xmlns:converters="clr-namespace:BookingApp.Converter"
+        xmlns:userControls="clr-namespace:BookingApp.UserControls"
+        mc:Ignorable="d" ResizeMode="CanMinimize"
+        Height="720" Width="1200" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" >
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" CornerRadius="0" GlassFrameThickness="0" />
+    </WindowChrome.WindowChrome>
+    <Window.Resources>
+        <converters:NullableIntConverter x:Key="NullableIntConverter"/>
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Key="D1" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=txtName}" />
+        <KeyBinding Key="D2" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=txtCity}" />
+        <KeyBinding Key="D3" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=txtCountry}" />
+        <KeyBinding Key="D4" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=cmbType}" />
+        <KeyBinding Key="D5" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=txtMaxGuests}" />
+        <KeyBinding Key="D6" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=txtMinReservationDays}" />
+
+        <KeyBinding Key="D7" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=ButtonCancelSearch}" />
+        <KeyBinding Key="D8" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=lvResults}" />
+        <KeyBinding Key="D9" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=ButtonReserve}" />
+
+    </Window.InputBindings>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <!-- Fade-in Animation -->
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                 From="0.0" To="1.0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <!-- Scale Animation for X axis -->
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                 From="0.8" To="1.0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <!-- Scale Animation for Y axis -->
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                 From="0.8" To="1.0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <!-- Translate Animation for Y axis to create a slide-up effect -->
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                 From="50" To="0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Window.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform ScaleX="1" ScaleY="1"/>
+            <TranslateTransform Y="0"/>
+        </TransformGroup>
+    </Window.RenderTransform>
+
+    <Grid Background="#FFEDEDED">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <userControls:CustomTitleBar x:Name="titleBar" User="{Binding User}" Grid.Row="0" Margin="0,-5,0,5" />
+
+        <TextBlock Grid.Row="1" TextWrapping="Wrap" FontWeight="Bold" FontSize="42" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,1,0,0">
+            <Run Language="en-gb" Text="Pretraga Smeštaja"/>
+        </TextBlock>
+
+        <ListView Grid.Row="1" x:Name="lvResults" ItemsSource="{Binding FilteredAccommodations}" Margin="60,300,62,61" Background="White" BorderBrush="#CCCCCC" BorderThickness="1" SelectedItem="{Binding SelectedAccommodation}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0" Background="#F8F8FF">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="1" />
+                            <!-- Separator row -->
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding Pictures[0]}" Width="200" Height="150" Margin="5" VerticalAlignment="Top" />
+                            <StackPanel Grid.Column="1" Margin="15,0,5,0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold" TextWrapping="Wrap" />
+                                <Border  BorderThickness="1" Padding="5,2" Width="805">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Lokacija: " FontSize="16" FontWeight="SemiBold" Background="#F2F2F2" />
+                                        <TextBlock Text="{Binding Location}" FontSize="16" TextWrapping="Wrap" Background="#F2F2F2" />
+                                        <TextBlock Text="Tip: " FontSize="16" FontWeight="SemiBold" Background="#E6E6E6" Margin="10,0,0,0" />
+                                        <TextBlock FontSize="16" Background="#E6E6E6">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="{Binding Type}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Type}" Value="Apartment">
+                                                            <Setter Property="Text" Value="Apartman" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Type}" Value="House">
+                                                            <Setter Property="Text" Value="Kuća" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Type}" Value="Cabin">
+                                                            <Setter Property="Text" Value="Koliba" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderThickness="1" Padding="5,2">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Limit ljudi: " FontSize="16" FontWeight="SemiBold" Background="#DCDCDC" />
+                                        <TextBlock Text="{Binding MaxGuests}" FontSize="16" Background="#DCDCDC" />
+                                        <TextBlock Text="Minimalan broj dana rezervacije: " FontSize="16" FontWeight="SemiBold" Background="#D3D3D3" Margin="10,0,0,0" />
+                                        <TextBlock Text="{Binding MinReservationDays}" FontSize="16" Background="#D3D3D3" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                        <Rectangle Grid.Row="1" Fill="#D3D3D3" Height="1" Stretch="Fill" VerticalAlignment="Bottom" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="Background" Value="#f2f2f2" />
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="Padding" Value="10,5" />
+                </Style>
+            </ListView.Resources>
+        </ListView>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10"/>
+        <Button x:Name="ButtonReserve" FontSize="14" Style="{StaticResource CustomButton}" Click="ReserveAccommodation_Click" Margin="508,624,510,10" Grid.Row="1" Height="46">
+            <StackPanel>
+                <TextBlock Text="Rezerviši" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="ButtonCancelSearch" FontSize="14" Style="{StaticResource CustomButton}" Click="CancelSearch_Click" Margin="0,236,0,0" Grid.Row="1" Width="182" Height="46" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock Text="Poništi pretragu" />
+            </StackPanel>
+        </Button>
+        <Label Content="Naziv:" Foreground="#333333" FontSize="20" Margin="80,80,1057,565" Grid.Row="1"/>
+        <TextBox x:Name="txtName" Style="{StaticResource ModernTextBoxStyle}" Background="#FFD9D9D9" Foreground="#FF2E2E2E" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="192,80,755,555" Grid.Row="1" VerticalContentAlignment="Center" Height="38"/>
+
+        <Label Content="Grad:" Foreground="#333333" FontSize="20" Margin="80,130,1057,512" Grid.Row="1"/>
+        <TextBox x:Name="txtCity" Style="{StaticResource ModernTextBoxStyle}" Background="#FFD9D9D9" Foreground="#FF2E2E2E" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}" Margin="176,130,740,512" Grid.Row="1" VerticalContentAlignment="Center" Height="Auto" Width="253"/>
+
+        <Label Content="Država:" Foreground="#333333" FontSize="20" Margin="80,180,1043,464" Grid.Row="1"/>
+        <TextBox x:Name="txtCountry" Style="{StaticResource ModernTextBoxStyle}" Background="#FFD9D9D9" Foreground="#FF2E2E2E" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" Margin="192,180,755,461" Grid.Row="1" VerticalContentAlignment="Center" Height="38"/>
+
+        <Label Content="Tip:" Foreground="#333333" FontSize="20" Margin="579,80,579,564" Grid.Row="1"/>
+        <ComboBox Style="{StaticResource ModernComboBoxStyle}" x:Name="cmbType" SelectedItem="{Binding SelectedComboBoxItem, UpdateSourceTrigger=PropertyChanged}" Foreground="#333333" Loaded="cmbType_Loaded" Margin="822,80,125,558" Grid.Row="1" Width="253" Height="38">
+            <ComboBoxItem Content="Izaberite tip smeštaja"/>
+            <ComboBoxItem Content="Apartman" />
+            <ComboBoxItem Content="Kuća"/>
+            <ComboBoxItem Content="Koliba"/>
+        </ComboBox>
+
+
+        <Label Content="Broj gostiju:" Foreground="#333333" FontSize="20" Margin="579,130,506,512" Grid.Row="1"/>
+        <TextBox x:Name="txtMaxGuests" Style="{StaticResource ModernTextBoxStyle}" Background="#FFD9D9D9" Foreground="#FF2E2E2E" Text="{Binding MaxGuests, Converter={StaticResource NullableIntConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="822,130,125,512" Grid.Row="1" Width="253" VerticalContentAlignment="Center" Height="Auto" ToolTip="Morate uneti broj"/>
+
+        <Label Content="Broj dana za rezervaciju:" Foreground="#333333" FontSize="20" Margin="579,180,395,461" Grid.Row="1"/>
+        <TextBox x:Name="txtMinReservationDays" Style="{StaticResource ModernTextBoxStyle}" Background="#FFD9D9D9" Foreground="#FF2E2E2E" Text="{Binding MinReservationDays, Converter={StaticResource NullableIntConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="822,180,125,462" Grid.Row="1" Width="253" VerticalContentAlignment="Center" Height="Auto" ToolTip="Morate uneti broj"/>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="579,265,581,398" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="7"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="581,653,579,10" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="9"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="85,108,1073,555" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+1"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="85,158,1073,505" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+2"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="85,207,1073,456" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+3"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="587,108,571,555" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+4"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="587,158,571,505" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+5"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="587,207,571,456" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+6"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="60,283,1100,380" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="8"/></TextBlock>
+    </Grid>
+</Window>

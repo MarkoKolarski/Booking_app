@@ -1,0 +1,77 @@
+﻿<Page x:Class="BookingApp.View.OwnerReviews"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="OwnerReviews"
+     Background="#ffe4c4">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Command="{Binding Back}" Background="Transparent" BorderThickness="0">
+                <Image Source="../Resources/Images/backarr.png" Height="75" Width="75" Stretch="Uniform"/>
+            </Button>
+            <TextBlock Text="guest reviews" FontSize="44" HorizontalAlignment="Left" Margin="25,0,0,0" FontWeight="ExtraBold" Foreground="Black" VerticalAlignment="Center" Grid.Row="0"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20,0,0,0">
+            <Border CornerRadius="15" Margin="20,0,0,0" BorderThickness="3" BorderBrush="#556b2f" Width="230" Height="45" HorizontalAlignment="Center" Background="White">
+                <TextBlock Text="name" FontSize="32" FontWeight="Bold" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <Border CornerRadius="15" Margin="30,0,0,0" BorderThickness="3" BorderBrush="#556b2f" Width="230" Height="45" HorizontalAlignment="Center" Background="White">
+                <TextBlock Text="cleanliness" FontSize="32" FontWeight="Bold" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <Border CornerRadius="15" Margin="30,0,0,0" BorderThickness="3" BorderBrush="#556b2f" Width="230" Height="45" HorizontalAlignment="Center" Background="White">
+                <TextBlock Text="guests" FontSize="32" FontWeight="Bold" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+        </StackPanel>
+
+        <ListView Grid.Row="2" ItemsSource="{Binding Ratings}" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" BorderThickness="0">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                    <Border BorderBrush="#556b2f" BorderThickness="3" Background="White" Margin="20,0,0,0" Padding="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="765" CornerRadius="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="242"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="242"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding GuestName}" Grid.Column="0" Margin="20,10,0,0" FontSize="28" FontWeight="Bold"/>
+                            <StackPanel Grid.Column="1" Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                                    <Image Source="{Binding CleanlinessImages[0]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                    <Image Source="{Binding CleanlinessImages[1]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                    <Image Source="{Binding CleanlinessImages[2]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                    <Image Source="{Binding CleanlinessImages[3]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                    <Image Source="{Binding CleanlinessImages[4]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                </StackPanel>
+
+                                <Button Margin="10,20,0,0" Foreground="Black" Background="#ffe4c4" BorderBrush="#556b2f" BorderThickness="3"  FontSize="28" FontWeight="ExtraBold" Content="entire review" Width="202" Height="60"
+                                        Command="{Binding DataContext.ShowReviewDetails, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding}"/>
+
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="25,10,0,0">
+                                <Image Source="{Binding OwnerCorrectnessImages[0]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding OwnerCorrectnessImages[1]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding OwnerCorrectnessImages[2]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding OwnerCorrectnessImages[3]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding OwnerCorrectnessImages[4]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                            </StackPanel>
+                     
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+    </Grid>
+</Page>

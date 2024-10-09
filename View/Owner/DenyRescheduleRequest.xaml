@@ -1,0 +1,42 @@
+﻿<Page x:Class="BookingApp.View.DenyRescheduleRequest"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="DenyRescheduleRequest"
+      Background="#ffe4c4"
+      >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Command="{Binding GetBack}" Background="Transparent" BorderThickness="0">
+                <Image Source="../Resources/Images/backarr.png" Height="75" Width="75" Stretch="Uniform"/>
+            </Button>
+            <TextBlock Text="postpond requests" FontSize="44" HorizontalAlignment="Left" Margin="25,0,0,0" FontWeight="ExtraBold" Foreground="Black" VerticalAlignment="Center" Grid.Row="0"/>
+            <Image Margin="25,0,0,0" Source="../Resources/Images/envelope.png" Width="65" Height="50" />
+        </StackPanel>
+        
+        
+        <TextBlock Grid.Row="1" Text="add explanation for rejectiong(optional):" FontSize="28" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0"/>
+        <Border Grid.Row="2" CornerRadius="15" Margin="15" Height="400" BorderBrush="#556b2f" BorderThickness="3">
+            <TextBox Margin="10" Text="{Binding RescheduleReservationRequest.OwnerResponse}" FontSize="28" Background="Transparent" BorderThickness="0"></TextBox>
+        </Border>
+
+        <Button Grid.Row="3" Width="240" Height="70" FontSize="30" Margin="0,0,40,0" Background="Red" BorderBrush="#556b2f" BorderThickness="3" Command="{Binding SendResponse}" CommandParameter="{Binding}" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="../Resources/Images/send.png" Height="45" Width="55" Stretch="Uniform"/>
+                <TextBlock Text="send" FontSize="32" FontWeight="Bold" Foreground="#ffe4c4" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+</Page>

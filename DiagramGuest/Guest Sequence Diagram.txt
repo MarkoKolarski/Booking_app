@@ -1,0 +1,98 @@
+@startuml
+hide footbox
+
+    actor "User" as U
+
+    participant ReserveAccommodationViewModel as RAVM
+    participant SuperGuest
+    participant SuperGuestService as SGS
+    participant SuperGuestRepository as SGR
+
+
+
+    activate RAVM
+
+    U -> RAVM: ReserveAccommodation()
+    note left : User entered the information\nand clicked reserve
+
+    opt ValidateInput() fails
+        RAVM --> U : Invalid input
+        note Right: Logic for Validation
+    end
+
+        RAVM -> RAVM: availableDates = GetAvailableDates()
+        note Right: Logic for geting available dates
+        RAVM -> SGS ++: GetByGuestId(User.Id)
+        SGS -> SGR ++: GetByGuestId(User.Id)
+        SGR --> SGS --: SuperGuest
+        SGS --> SuperGuest : <<create>>
+        deactivate SGS
+        activate SuperGuest
+
+        opt SuperGuest is null
+            RAVM -> SuperGuest : new SuperGuest()
+            RAVM -> SuperGuest : SuperGuest.GuestId = User.Id
+            RAVM -> SGS ++: Save(SuperGuest)
+            SGS -> SGR++: Save(SuperGuest)
+            SGR --> SGS--: SuperGuest
+            SGS --> RAVM --: SuperGuest
+        end
+
+        opt availableDates is empty
+            RAVM -> RAVM: HandleUnavailableDates()
+            note Right: Logic for geting alternative available dates
+            RAVM --> U : No alternative dates
+        end
+        deactivate SuperGuest
+        RAVM -> RAVM: ReserveSelectedDates(availableDates)
+        note Right: Choose date logic
+
+
+
+    RAVM -> SGS ++: GetByGuestId(User.Id)
+    SGS -> SGR ++: GetByGuestId(User.Id)
+    SGR --> SGS --: SuperGuest
+    SGS --> SuperGuest : <<create>>
+    deactivate SGS
+    activate SuperGuest
+
+
+    RAVM -> SuperGuest: AddReservation()
+    alt (DateTime.Now - StartDate.Value).TotalDays > 365
+        SuperGuest->>SuperGuest: ReservationCount = 1
+        SuperGuest->>SuperGuest: StartDate = DateTime.Now
+        SuperGuest->>SuperGuest: IsSuperGuest = false
+        SuperGuest->>SuperGuest: BonusPoints = 0
+    else false
+        SuperGuest->>SuperGuest: ReservationCount++
+    end
+
+    opt ReservationCount == 10
+        SuperGuest->>SuperGuest: StartDate = DateTime.Now
+        SuperGuest->>SuperGuest: IsSuperGuest = true
+        SuperGuest->>SuperGuest: BonusPoints = 5
+    end
+
+    SuperGuest-->>RAVM: SuperGuest
+    deactivate SuperGuest
+
+
+
+    RAVM -> SuperGuest: UseBonusPoint()
+    activate SuperGuest
+
+    opt IsSuperGuest && BonusPoints > 0
+        SuperGuest->>SuperGuest: BonusPoints--
+    end
+
+    SuperGuest-->>RAVM: SuperGuest
+    deactivate SuperGuest
+
+
+
+
+    RAVM -> SGS ++: Update(SuperGuest)
+    SGS -> SGR ++: Update(SuperGuest)
+    deactivate SGR
+    deactivate SGS
+@enduml

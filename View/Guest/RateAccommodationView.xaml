@@ -1,0 +1,220 @@
+﻿<Window x:Class="BookingApp.View.Guest.RateAccommodationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp.View"
+        xmlns:converters="clr-namespace:BookingApp.Converter"
+        xmlns:userControls="clr-namespace:BookingApp.UserControls"
+        mc:Ignorable="d"
+        Height="720" Width="1200" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="CanMinimize">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" CornerRadius="0" GlassFrameThickness="0" />
+    </WindowChrome.WindowChrome>
+
+    <Window.InputBindings>
+        <KeyBinding Key="D1" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=RbOne}" />
+        <KeyBinding Key="D2" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=RbTwo}" />
+        <KeyBinding Key="D3" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=TbComment}" />
+        <KeyBinding Key="D4" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=CbRenovationLevels}" />
+        <KeyBinding Key="D5" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=browseButton}" />
+        <KeyBinding Key="D6" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=ButtonPreviousImage}" />
+        <KeyBinding Key="D7" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=ButtonNextImage}" />
+        <KeyBinding Key="D8" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=submitRatingButton}" />
+        <KeyBinding Key="D9" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=ButtonCancel}" />
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <converters:RatingToBooleanConverter x:Key="RatingToBooleanConverter"/>
+        <converters:RenovationLevelToStringConverter x:Key="RenovationLevelToStringConverter"/>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <!-- Fade-in Animation -->
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                 From="0.0" To="1.0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <!-- Scale Animation for X axis -->
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                 From="0.8" To="1.0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <!-- Scale Animation for Y axis -->
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                 From="0.8" To="1.0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <!-- Translate Animation for Y axis to create a slide-up effect -->
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                 From="50" To="0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Window.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform ScaleX="1" ScaleY="1"/>
+            <TranslateTransform Y="0"/>
+        </TransformGroup>
+    </Window.RenderTransform>
+
+
+    <Grid Background="#FFEDEDED">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <userControls:CustomTitleBar x:Name="titleBar" User="{Binding User}" Grid.Row="0" Margin="0,-5,0,5" />
+
+        <Grid Grid.Row="1" Background="#FFEDEDED">
+            <!-- Accommodation Data Grid -->
+            <Grid Background="#FFD9D9D9" Margin="42,82,521,110">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border BorderBrush="#FF646464" BorderThickness="2" CornerRadius="5" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,206" Grid.RowSpan="2">
+                    <StackPanel Margin="10,10,10,26">
+                        <TextBlock Text="{Binding SelectedAccommodation.Name}" FontSize="20" Foreground="#FF2E2E2E" FontWeight="Bold" Height="49" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding SelectedAccommodation.MaxGuests, StringFormat=Maksimalan broj ljudi: {0}}" FontSize="20" Foreground="#FF2E2E2E"/>
+                        <TextBlock Text="{Binding SelectedAccommodation.MinReservationDays, StringFormat=Minimalni broj dana rezervacije: {0}}" FontSize="20" Foreground="#FF2E2E2E"/>
+                        <Image x:Name="accommodationImage" Source="{Binding CurrentImagePath}" Width="500" Height="300" Margin="0,10,0,0" />
+                    </StackPanel>
+                </Border>
+                <Grid Grid.Row="1" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="ButtonPreviousImage" Click="PreviousImage_Click" Margin="68,252,216,398" BorderThickness="0" Background="Transparent" Style="{StaticResource CustomButton}">
+                        <Image  Source="../../Resources/Images/arrow_left.png" Height="34" Width="34" />
+                    </Button>
+                    <Button Click="NextImage_Click" Grid.Column="1" Margin="216,257,72,403" BorderThickness="0" Background="Transparent" Style="{StaticResource CustomButton}"/>
+                </Grid>
+            </Grid>
+            <Image HorizontalAlignment="Left" Height="28" Margin="977,103,0,0" VerticalAlignment="Top" Width="26" Source="../../Resources/Images/star.png"/>
+            <Image HorizontalAlignment="Left" Height="28" Margin="1006,103,0,0" VerticalAlignment="Top" Width="26" Source="../../Resources/Images/star.png"/>
+            <Image HorizontalAlignment="Left" Height="28" Margin="1034,103,0,0" VerticalAlignment="Top" Width="26" Source="../../Resources/Images/star.png"/>
+            <Image HorizontalAlignment="Left" Height="28" Margin="1062,103,0,0" VerticalAlignment="Top" Width="26" Source="../../Resources/Images/star.png"/>
+            <Image HorizontalAlignment="Left" Height="28" Margin="1090,103,0,0" VerticalAlignment="Top" Width="26" Source="../../Resources/Images/star.png"/>
+            <Image HorizontalAlignment="Left" Height="28" Margin="765,103,0,0" VerticalAlignment="Top" Width="26" Source="../../Resources/Images/star.png"/>
+            <Image HorizontalAlignment="Left" Height="28" Margin="794,103,0,0" VerticalAlignment="Top" Width="26" Source="../../Resources/Images/star.png"/>
+            <Image HorizontalAlignment="Left" Height="28" Margin="822,103,0,0" VerticalAlignment="Top" Width="26" Source="../../Resources/Images/star.png"/>
+            <Image HorizontalAlignment="Left" Height="28" Margin="850,103,0,0" VerticalAlignment="Top" Width="26" Source="../../Resources/Images/star.png"/>
+            <Image HorizontalAlignment="Left" Height="28" Margin="878,103,0,0" VerticalAlignment="Top" Width="26" Source="../../Resources/Images/star.png"/>
+
+            <!-- Rest of the Content -->
+            <Grid Grid.Row="1" Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Rating Inputs -->
+                <StackPanel Grid.Column="0" Margin="0,62,20,0"/>
+
+                <!-- Display Selected Images -->
+                <ListBox x:Name="selectedImagesListBox" Grid.Column="1" ItemsSource="{Binding GuestImages}" HorizontalContentAlignment="Stretch" Margin="731,340,27,113" Background="#FFD9D9D9" Foreground="#FF2E2E2E" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#FF646464" BorderThickness="1" Margin="0,0,0,10">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="{Binding}" Margin="5" Foreground="#FF2E2E2E" Grid.Row="0"/>
+                                    <Image Source="{Binding}" Stretch="Uniform" MaxHeight="140" Grid.Row="1"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Margin="747,539,310,73" Grid.Column="1"><Run Language="en-gb" Text="Dodaj slike:"/></TextBlock>
+                <Button x:Name="browseButton" Style="{StaticResource CustomButton}" Content="Dodaj slike" Click="BrowseImages_Click" Grid.Column="1" Margin="849,539,145,57" />
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="731,52,321,567"><Run Language="en-gb" Text="Čistoća:"/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Margin="934,52,60,565" Grid.Column="1"><Run Language="en-gb" Text="Korektnost vlasnika: "/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Margin="731,128,231,480" Grid.Column="1"><Run Text="Vaš komentar"/><Run Language="en-gb" Text="/preporuka"/><Run Text=": "/></TextBlock>
+                <TextBox x:Name="TbComment" Style="{StaticResource ModernTextBoxStyle}" Text="{Binding Rating.Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Grid.Column="1" Margin="731,163,26,389" Background="#FFD9D9D9" Foreground="#FF2E2E2E"/>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Margin="731,251,267,366" Grid.Column="1"><Run Language="en-gb" Text="H"/><Run Text="itnosti renoviranja"/><Run Language="en-gb" Text=":"/></TextBlock>
+                <RadioButton Background="#FFD9D9D9" Foreground="#FF2E2E2E" GroupName="Cleanliness" IsChecked="{Binding Rating.Cleanliness, ConverterParameter=5, Converter={StaticResource RatingToBooleanConverter}}" Grid.Column="1" Margin="844,90,281,532" />
+                <RadioButton Background="#FFD9D9D9" Foreground="#FF2E2E2E" GroupName="Cleanliness" IsChecked="{Binding Rating.Cleanliness, ConverterParameter=4, Converter={StaticResource RatingToBooleanConverter}}" Grid.Column="1" Margin="816,90,309,532" />
+                <RadioButton Background="#FFD9D9D9" Foreground="#FF2E2E2E" GroupName="Cleanliness" IsChecked="{Binding Rating.Cleanliness, ConverterParameter=3, Converter={StaticResource RatingToBooleanConverter}}" Grid.Column="1" Margin="788,90,338,532" />
+                <RadioButton Background="#FFD9D9D9" Foreground="#FF2E2E2E" GroupName="Cleanliness" IsChecked="{Binding Rating.Cleanliness, ConverterParameter=2, Converter={StaticResource RatingToBooleanConverter}}" Grid.Column="1" Margin="760,90,364,532" />
+                <RadioButton x:Name="RbOne" Background="#FFD9D9D9" Foreground="#FF2E2E2E" GroupName="Cleanliness" IsChecked="{Binding Rating.Cleanliness, ConverterParameter=1, Converter={StaticResource RatingToBooleanConverter}}" Grid.Column="1" Margin="731,90,394,532" />
+                <RadioButton x:Name="RbTwo" Background="#FFD9D9D9" Foreground="#FF2E2E2E" GroupName="OwnerCorrectness" IsChecked="{Binding Rating.OwnerCorrectness, ConverterParameter=1, Converter={StaticResource RatingToBooleanConverter}}" Grid.Column="1" Margin="943,91,182,532" />
+                <RadioButton Background="#FFD9D9D9" Foreground="#FF2E2E2E" GroupName="OwnerCorrectness" IsChecked="{Binding Rating.OwnerCorrectness, ConverterParameter=2, Converter={StaticResource RatingToBooleanConverter}}" Grid.Column="1" Margin="972,91,154,532" />
+                <RadioButton Background="#FFD9D9D9" Foreground="#FF2E2E2E" GroupName="OwnerCorrectness" IsChecked="{Binding Rating.OwnerCorrectness, ConverterParameter=3, Converter={StaticResource RatingToBooleanConverter}}" Grid.Column="1" Margin="1000,91,126,532" />
+                <RadioButton Background="#FFD9D9D9" Foreground="#FF2E2E2E" GroupName="OwnerCorrectness" IsChecked="{Binding Rating.OwnerCorrectness, ConverterParameter=4, Converter={StaticResource RatingToBooleanConverter}}" Grid.Column="1" Margin="1028,91,98,532" />
+                <RadioButton Background="#FFD9D9D9" Foreground="#FF2E2E2E" GroupName="OwnerCorrectness" IsChecked="{Binding Rating.OwnerCorrectness, ConverterParameter=5, Converter={StaticResource RatingToBooleanConverter}}" Grid.Column="1" Margin="1056,91,70,533" />
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="733,106,394,512"><Run Language="en-gb" Text="1."/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="763,106,364,512"><Run Language="en-gb" Text="2."/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="789,106,338,512"><Run Language="en-gb" Text="3."/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="817,106,310,512"><Run Language="en-gb" Text="4."/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="845,106,282,512"><Run Language="en-gb" Text="5."/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="944,106,183,512"><Run Language="en-gb" Text="1."/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="972,106,154,512"><Run Language="en-gb" Text="2."/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="1002,106,124,512"><Run Language="en-gb" Text="3."/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="1028,106,98,512"><Run Language="en-gb" Text="4."/></TextBlock>
+                <TextBlock FontSize="16" Foreground="#FF2E2E2E" Grid.Column="1" Margin="1056,106,70,512"><Run Language="en-gb" Text="5."/></TextBlock>
+            </Grid>
+            <Button x:Name="ButtonNextImage" Click="NextImage_Click" Margin="572,340,590,300" BorderThickness="0" Background="Transparent" Style="{StaticResource CustomButton}">
+                <Image  Source="../../Resources/Images/arrow_right.png" Width="34" />
+            </Button>
+            <ComboBox x:Name="CbRenovationLevels" Style="{StaticResource ModernComboBoxStyle}" HorizontalAlignment="Left" Margin="772,308,0,0" VerticalAlignment="Top" Width="382"  
+          ItemsSource="{Binding Path=RenovationLevels}"
+          SelectedItem="{Binding Path=SelectedRenovationLevel}" Height="40">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource RenovationLevelToStringConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+
+        <!-- Buttons -->
+        <Border Grid.Row="1" Background="#FFDBDBDB" Padding="10" Margin="0,614,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="submitRatingButton" Style="{StaticResource CustomButton}" Content="Završi ocenjivanje" Background="#FFE1E1E1" Foreground="#FF333333" FontSize="16" Padding="10,5" Margin="0,0,10,0" Click="SubmitRating_Click" Height="39" Width="157"/>
+                <Button x:Name="ButtonCancel" Content="Poništi" Style="{StaticResource CustomButton}" Background="#FFE1E1E1" Foreground="#FF333333" FontSize="16" Padding="10,5" Click="Cancel_Click" Height="39" Width="65"/>
+            </StackPanel>
+        </Border>
+        <TextBlock Grid.Row="1" TextWrapping="Wrap" FontWeight="Bold" FontSize="42" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,1,0,0" Foreground="#FF2E2E2E"><Run Language="en-gb" Text="Oceni smeštaj"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="771,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Language="en-gb" Text="Ctrl"/><Run Text="+1"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="974,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="2"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="771,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="3"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="771,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Language="en-gb" Text="Ctrl"/><Run Text="+1"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="771,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Language="en-gb" Text="Ctrl"/><Run Text="+1"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="771,287,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="4"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="786,575,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="5"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="571,370,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="7"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="108,370,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="6"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="540,651,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="8"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="16" Margin="665,651,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="13" FontStyle="Italic" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="9"/></TextBlock>
+    </Grid>
+</Window>

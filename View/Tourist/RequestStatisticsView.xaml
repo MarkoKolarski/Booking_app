@@ -1,0 +1,88 @@
+<Window x:Class="BookingApp.View.Tourist.RequestStatisticsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="Tour Requests Statistics" Height="550" Width="815" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style x:Key="HoverButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="Margin" Value="0 0 00 0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Gainsboro"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </Window.Resources>
+
+    <Grid Background="PaleTurquoise" DataContext="{Binding}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Tour Requests Statistics" Grid.Row="0" FontSize="20" FontFamily="Tahoma" FontWeight="Bold" Foreground="Sienna" Margin="10,10,10,20"/>
+        
+        <Label Content="Enter year: " Grid.Row="1" Margin="10,10,10,10"/>
+        <TextBox x:Name="YearTextBox" Grid.Row="1" Text="{Binding Year, UpdateSourceTrigger=PropertyChanged}" Margin="90,10,630,10"/>
+        <Button Content="Submit" Click="ShowStatisticsButton_Click" Grid.Row="1" Style="{StaticResource HoverButtonStyle}" Margin="230,13,465,13"/>
+        <Button Content="Show Overall" Click="ShowOverallStatisticsButton_Click" Grid.Row="1" Style="{StaticResource HoverButtonStyle}" Margin="670,13,10,13"/>
+
+        <StackPanel Grid.Row="2" Margin="10,10,10,10">
+            <!--TextBlock Text="{Binding TotalRequests, StringFormat='Total Requests: {0}'}" Margin="10"/-->
+            <!--TextBlock Text="{Binding AcceptedRequests, StringFormat='Accepted Requests: {0}'}" Margin="10"/-->
+            <!--TextBlock Text="{Binding RejectedRequests, StringFormat='Rejected Requests: {0}'}" Margin="10"/-->
+            <TextBlock Text="{Binding AcceptedPercentage, StringFormat='Accepted Percentage: {0:F2}%'}" Margin="10"/>
+            <TextBlock Text="{Binding RejectedPercentage, StringFormat='Rejected Percentage: {0:F2}%'}" Margin="10"/>
+            <TextBlock Text="{Binding AverageParticipantsInAcceptedRequests, StringFormat='Average Participants in Accepted Requests: {0:F2}'}" Margin="10"/>
+        </StackPanel>
+
+        <lvc:CartesianChart Grid.Row="3" Margin="0,10,415,10" Width="400" Height="200" DataContext="{Binding}">
+            <lvc:CartesianChart.Series>
+                <lvc:ColumnSeries Title="Requests per location" DataLabels="True" FontFamily="Tahoma" Foreground="Black" Values="{Binding LocationSeriesCollection[0].Values}" />
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Location" Labels="{Binding LocationLabels}" FontFamily="Tahoma" Foreground="Black" />
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Number of Requests" FontFamily="Tahoma" Foreground="Black"  />
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
+        <lvc:CartesianChart Grid.Row="3" Margin="415,10,0,10" Width="400" Height="200" DataContext="{Binding}">
+            <lvc:CartesianChart.Series>
+                <lvc:ColumnSeries Title="Requests per language" DataLabels="True" FontFamily="Tahoma" Foreground="Black" Values="{Binding LanguageSeriesCollection[0].Values}" />
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Language" Labels="{Binding LanguageLabels}" FontFamily="Tahoma" Foreground="Black"  />
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Number of Requests" FontFamily="Tahoma" Foreground="Black" />
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
+
+
+    </Grid>
+</Window>

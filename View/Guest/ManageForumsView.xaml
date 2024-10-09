@@ -1,0 +1,220 @@
+﻿<Window x:Class="BookingApp.View.Guest.ManageForumsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp.View.Guest"
+        xmlns:userControls="clr-namespace:BookingApp.UserControls"
+        mc:Ignorable="d"
+        Height="720" Width="1200" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="CanMinimize">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" CornerRadius="0" GlassFrameThickness="0" />
+    </WindowChrome.WindowChrome>
+
+    <Window.InputBindings>
+        <KeyBinding Key="D1" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=UcSearchLocation}" />
+        <KeyBinding Key="D2" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=TbSearchTitle}" />
+        <KeyBinding Key="D3" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=CbShowOnlyMyForums}" />
+        <KeyBinding Key="D4" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=ButtonCancelSearch}" />
+        <KeyBinding Key="D5" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=ButtonOpenForum}" />
+        <KeyBinding Key="D6" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=ButtonCloseForum}" />
+        <KeyBinding Key="D7" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=lvForums}" />
+        <KeyBinding Key="D8" Modifiers="Ctrl" Command="{Binding FocusCommand}" CommandParameter="{Binding ElementName=ButtonShowForum}" />
+    </Window.InputBindings>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <!-- Fade-in Animation -->
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                 From="0.0" To="1.0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <!-- Scale Animation for X axis -->
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                 From="0.8" To="1.0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <!-- Scale Animation for Y axis -->
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                 From="0.8" To="1.0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <!-- Translate Animation for Y axis to create a slide-up effect -->
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                 From="50" To="0" Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Window.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform ScaleX="1" ScaleY="1"/>
+            <TranslateTransform Y="0"/>
+        </TransformGroup>
+    </Window.RenderTransform>
+
+    <Grid Background="#FFEDEDED">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Rectangle HorizontalAlignment="Left" Height="223" Margin="859,57,0,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="280" StrokeThickness="2"/>
+        <userControls:CustomTitleBar x:Name="titleBar" User="{Binding User}" Grid.Row="0" Margin="0,-5,0,5" />
+
+        <TextBlock Grid.Row="1" TextWrapping="Wrap" FontWeight="Bold" FontSize="42" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,1,0,0"><Run Language="en-gb" Text="Forumi"/></TextBlock>
+        <Button x:Name="ButtonCancelSearch" FontSize="14" Style="{StaticResource CustomButton}" Command="{Binding CancelSearchCommand}" Margin="610,168,0,0" Grid.Row="1" Width="182" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock Text="Poništi pretragu" />
+            </StackPanel>
+        </Button>
+        <Label Content="Lokacija: " Foreground="#333333" FontSize="20" Margin="81,120,1029,528" Grid.Row="1"/>
+        <userControls:InlineSuggestionTextBox x:Name="UcSearchLocation" Text="{Binding SearchLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                      Suggestion="{Binding CurrentSuggestion}" Margin="332,120,615,528" Grid.Row="1" Height="40"
+                                      />
+
+        <Label Content="Pitanje/Naslov foruma: " Foreground="#333333" FontSize="20" Margin="81,170,908,475" Grid.Row="1"/>
+        <TextBox x:Name="TbSearchTitle"  Style="{StaticResource ModernTextBoxStyle}" Background="#FFD9D9D9" Foreground="#FF2E2E2E" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" Margin="332,168,615,477" Grid.Row="1" VerticalContentAlignment="Center" Height="Auto" Width="253"/>
+        <Label Content="Prikaži samo moje forume: " Foreground="#333333" FontSize="20" Margin="81,220,873,427" Grid.Row="1"/>
+
+        <CheckBox x:Name="CbShowOnlyMyForums" Background="#FFD9D9D9" Content="Prikaži samo moje" IsChecked="{Binding ShowOnlyMyForums, Mode=TwoWay}" Foreground="#333333" Margin="332,235,742,0" Grid.Row="1" VerticalAlignment="Top" Height="22"/>
+
+        <Button x:Name="ButtonOpenForum" FontSize="14" Style="{StaticResource CustomButton}" Command="{Binding OpenForumCommand}" Margin="908,138,0,0" Grid.Row="1" Width="182" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock><Run Language="en-gb" Text="Dodaj forum"/></TextBlock>
+            </StackPanel>
+        </Button>
+        <Button x:Name="ButtonCloseForum" FontSize="14" Style="{StaticResource CustomButton}" Command="{Binding CloseForumCommand}" Margin="908,202,0,0" Grid.Row="1" Width="182" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock><Run Language="en-gb" Text="Zatvori forum"/></TextBlock>
+            </StackPanel>
+        </Button>
+        <Button x:Name="ButtonShowForum" FontSize="14" Style="{StaticResource CustomButton}" Command="{Binding ShowForumCommand}" Margin="509,624,509,18" Grid.Row="1" Height="46">
+            <StackPanel>
+                <TextBlock><Run Language="en-gb" Text="Prikaži forum"/></TextBlock>
+            </StackPanel>
+        </Button>
+        <ListView x:Name="lvForums" ItemsSource="{Binding Forums}" SelectedItem="{Binding SelectedForum}" 
+          HorizontalAlignment="Left" Height="319" Margin="81,300,0,0" 
+          VerticalAlignment="Top" Width="1058" Grid.Row="1" SelectionMode="Extended">
+
+            <!-- Stil za ListViewItem -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="10" />
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#ADD8E6" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <!-- DataTemplate za stavke -->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="5" Background="#F8F8FF">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto  " />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Labele -->
+                        <TextBlock Text="Pitanje/Naslov" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Margin="5" />
+                        <TextBlock Text="Lokacija" FontWeight="Bold" Grid.Row="0" Grid.Column="1" Margin="5" />
+                        <TextBlock Text="Username" FontWeight="Bold" Grid.Row="0" Grid.Column="2" Margin="5" />
+                        <TextBlock Text="Da li je jako korisno?" FontWeight="Bold" Grid.Row="0" Grid.Column="3" Margin="5" />
+                        <TextBlock Text="Otvoren" FontWeight="Bold" Grid.Row="0" Grid.Column="4" Margin="5" />
+                        <TextBlock Text="Datum kreiranja" FontWeight="Bold" Grid.Row="0" Grid.Column="5" Margin="5" />
+
+                        <!-- Glavni naslov -->
+                        <TextBlock Text="{Binding Title}" FontSize="16"  Grid.Row="1" Grid.Column="0" Margin="20,0"
+                           TextWrapping="Wrap" MaxWidth="400" />
+
+                        <!-- Prikaz informacija o forumu -->
+                        <TextBlock Text="{Binding Location}" FontSize="16" Grid.Row="1" Grid.Column="1" Margin="20,0" />
+                        <TextBlock Text="{Binding Creator.Username}" FontSize="16" Grid.Row="1" Grid.Column="2" Margin="20,0" />
+
+                        <!-- Slika za isVeryUseful -->
+                        <Image Grid.Row="1" Grid.Column="3" Margin="20,0" Width="20" Height="20">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Source" Value="../../Resources/Images/star_empty.png" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding isVeryUseful}" Value="True">
+                                            <Setter Property="Source" Value="../../Resources/Images/star.png" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+
+                        <!-- Slika za IsClosed -->
+                        <Image Grid.Row="1" Grid.Column="4" Margin="20,0" Width="20" Height="20">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Source" Value="../../Resources/Images/green_check.png" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsClosed}" Value="True">
+                                            <Setter Property="Source" Value="../../Resources/Images/red_x.png" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+
+
+                        <TextBlock Text="{Binding CreatedAt, StringFormat=dd.MM.yyyy}" FontSize="16" Grid.Row="1" Grid.Column="5" Margin="20,0" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <TextBlock Grid.Row="1" TextWrapping="Wrap" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="81,69,0,0" Text="Pretraži/Dodaj forum: "/>
+        <TextBlock Grid.Row="1" TextWrapping="Wrap" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="894,69,0,0"><Run Language="en-gb" Text="Funkcije foruma: "/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="87,146,1071,525" Grid.Row="1"><Run Text="Ctrl"/><Run Language="en-gb" Text="+1"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="87,196,1071,475" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="2"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="87,246,1071,425" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="3"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="680,197,478,473" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="4"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="87,246,1071,425" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="3"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="978,168,180,501" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="5"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="978,232,180,437" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="6"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="81,281,1077,388" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="7"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" FontSize="13" FontStyle="Italic" Margin="579,654,579,13" Grid.Row="1"><Run Text="Ctrl"/><Run Text="+"/><Run Language="en-gb" Text="8"/></TextBlock>
+    </Grid>
+</Window>

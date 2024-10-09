@@ -1,0 +1,24 @@
+﻿<Page x:Class="BookingApp.View.LastCheckoutsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="768" d:DesignWidth="1024"
+      Background="#272537"
+      Title="LastCheckoutsView">
+
+    <Grid>
+
+        <DataGrid x:Name="checkout" AutoGenerateColumns="False" ItemsSource="{Binding Reservations}" CanUserAddRows="False" IsReadOnly="True" Background="White" BorderBrush="#CCCCCC" BorderThickness="1" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Gost" Binding="{Binding Guest.Username}"/>
+                <DataGridTextColumn Header="Smestaj" Binding="{Binding Accommodation.Name}"/>
+                <DataGridTextColumn Header="Start Date" Binding="{Binding ReservedDate.Item1}"/>
+                <DataGridTextColumn Header="End Date" Binding="{Binding ReservedDate.Item2}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Automatic" Grid.Row="2" Grid.Column="2" />
+    </Grid>
+</Page>

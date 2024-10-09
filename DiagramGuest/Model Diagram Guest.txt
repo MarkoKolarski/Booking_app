@@ -1,0 +1,108 @@
+@startuml
+class SuperGuest <<serializable>> {
+  +Id: int
+  +ReservationCount: int
+  +IsSuperGuest: bool
+  +BonusPoints: int
+  +StartDate: DateTime?
+  +FromCSV(values: string[]): void
+  -ParseStartDate(value: string): DateTime?
+  +ToCSV(): string[]
+  +AddReservation(): SuperGuest
+  +UseBonusPoint(): SuperGuest
+  +ResetBonusPoints(): void
+}
+
+class User <<serializable>> {
+  +Id: int
+  +Username: string
+  +Password: string
+  +Role: Role
+  +ToCSV(): string[]
+  +FromCSV(values: string[]): void
+}
+
+enum Role {
+  Owner,
+  Guest,
+  Guide,
+  Tourist
+}
+
+class AccommodationRating <<serializable>> {
+  +Id: int
+  +Cleanliness: int
+  +OwnerCorrectness: int
+  +Comment: string
+  +GuestImages: List<string>
+  +RenovationLevel: RenovationLevel?
+  +FromCSV(values: string[]): void
+  -ParseRenovationLevel(valueString: string): RenovationLevel?
+  +ToCSV(): string[]
+}
+
+enum RenovationLevel {
+  None,
+  Level1,
+  Level2,
+  Level3,
+  Level4,
+  Level5
+}
+
+class Reservation <<serializable>> {
+  +Id: int
+  +ReservedDate: Tuple<DateTime, DateTime>?
+  +NumberOfGuests: int
+  +AccommodationRating: AccommodationRating
+  +Deleted: bool
+  +FromCSV(values: string[]): void
+  -ParseAccommodationRating(value: string): AccommodationRating?
+  +ToCSV(): string[]
+  -ConvertReservedDateToString(): string?
+  +ParseReservedDate(reservedDateString: string): void
+}
+
+class Accommodation <<serializable>> {
+  +Id: int
+  +Name: string
+  +Location: (string, string)
+  +Type: AccommodationType
+  +MaxGuests: int
+  +MinReservationDays: int
+  +CancellationDays: int
+  +Pictures: List<string>
+  +ToCSV(): string[]
+  +FromCSV(csvValues: string[]): void
+  -LoadPicturesFromCSV(pictureString: string): List<string>
+}
+
+enum AccommodationType {
+  Apartment,
+  House,
+  Cabin
+}
+
+class GuestRating <<serializable>> {
+  +Id: int
+  +CleanlinessRating: int
+  +RuleAdherenceRating: int
+  +AdditionalComment: string
+  +RatingDate: DateTime
+  +Rated: bool
+  +FromCSV(values: string[]): void
+  +ToCSV(): string[]
+  +Rate(cleanlinessRating: int, ruleAdherenceRating: int, additionalComment: string): void
+}
+
+SuperGuest "0..1" --* "1" User
+AccommodationRating "0..*" --* "1" User
+AccommodationRating "0..*" --* "1" Accommodation
+Reservation "0..*" --* "1" User
+Reservation "0..*" --* "1" Accommodation
+Reservation "1" *-- "0..*" AccommodationRating
+GuestRating"0..1" --* "1" Reservation
+GuestRating"0..*" --* "1" User
+GuestRating"0..*" --* "1" User
+Accommodation "0..*" --o "1" User
+@enduml

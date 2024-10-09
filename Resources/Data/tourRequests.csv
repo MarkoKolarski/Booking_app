@@ -1,0 +1,17 @@
+1|Police, Poland|Poljska tura!|Poljski|1|4:Ime1:Prezime1:18::False|20.05.2024. 12:00|30.05.2024. 12:00|Waiting
+2|Novi Sad, Serbia|Novosađanski prapostojbinska tura|Srpski|2|4:Ime1:Prezime1:18::False|15.06.2024. 14:00|25.06.2024. 09:00|Waiting
+3|Novi Sad, Serbia|Novosađanski pa zar opet?!|Srpski|2|4:Ime1:Prezime1:18::False|26.06.2024. 14:00|30.06.2024. 09:00|Waiting
+4|Police, Poland|Još jedna poljska tura!|Poljski|1|4:Ime1:Prezime1:18::False|20.04.2025. 12:00|30.04.2025. 08:00|Waiting
+5|Paris, France|Bonžur baget|Francuski|10|4:Ime1:Prezime1:18::False|01.07.2026. 15:00|30.07.2026. 07:00|Waiting
+6|Police, Poland|To Bože!|Poljski|1|4:Ime1:Prezime1:18::False|20.05.2026. 12:00|30.05.2026. 12:00|Waiting
+7|Police, Poland|Poljska tura!|Poljski|1|5:Ime1:Prezime1:18::False|20.05.2024. 12:00|30.05.2024. 12:00|Invalid
+8|Novi Sad, Serbia|Novosađanski prapostojbinska tura|Srpski|2|4:Ime1:Prezime1:18::False|15.06.2024. 14:00|25.06.2024. 09:00|Invalid
+9|Novi Sad, Serbia|Novosađanski pa zar opet?!|Srpski|2|4:Ime1:Prezime1:18::False|26.06.2024. 14:00|30.06.2024. 09:00|Invalid
+10|Police, Poland|Još jedna poljska tura!|Poljski|1|4:Ime1:Prezime1:18::False|20.04.2025. 12:00|30.04.2025. 08:00|Invalid
+11|Paris, France|Bonžur baget|Francuski|10|4:Ime1:Prezime1:18::False|01.07.2026. 15:00|30.07.2026. 07:00|Invalid
+12|Police, Poland|To Bože!|Poljski|1|4:Ime1:Prezime1:18::False|20.05.2026. 12:00|30.05.2026. 12:00|Invalid
+13|Police, Poland|Poljska tura!|Poljski|1|4:Ime1:Prezime1:18::False|20.05.2024. 12:00|30.05.2024. 12:00|Accepted
+14|Novi Sad, Serbia|Novosađanski prapostojbinska tura|Srpski|2|4:Ime1:Prezime1:18::False|15.06.2024. 14:00|25.06.2024. 09:00|Accepted
+15|Novi Sad, Serbia|Novosađanski pa zar opet?!|Srpski|2|4:Ime1:Prezime1:18::False|26.06.2024. 14:00|30.06.2024. 09:00|Accepted
+16|Paris, France|Bonžur baget|Francuski|10|4:Ime1:Prezime1:18::False|01.07.2026. 15:00|30.07.2026. 07:00|Accepted
+17|Dibba Al-Fujairah, United Arab Emirates|lalala|Azerbejdžanski|1|4:ik:vit:22::False|23.05.2024. 09:05|17.05.2024. 09:05|Invalid

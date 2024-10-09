@@ -1,0 +1,76 @@
+@startuml
+hide footbox
+
+actor User
+participant NewTourNotificationViewModel
+participant suggestedTours
+participant TourService
+participant TourRepository
+participant TourRequestService
+participant TourRequestRepository
+
+User -> NewTourNotificationViewModel: user opens notification view
+activate NewTourNotificationViewModel
+
+NewTourNotificationViewModel -> NewTourNotificationViewModel: MakeUniqeList()
+
+NewTourNotificationViewModel -> TourService: GetAll()
+activate TourService
+TourService -> TourRepository: GetAll()
+activate TourRepository
+TourRepository --> TourService: List<Tour> allTours
+deactivate TourRepository
+TourService --> NewTourNotificationViewModel: List<Tour> allTours
+deactivate TourService
+
+NewTourNotificationViewModel -> suggestedTours **: new HashSet<Tour>()
+activate suggestedTours
+
+NewTourNotificationViewModel -> TourRequestService: GetInvalidLocationsAndLanguages(user.Id)
+activate TourRequestService
+TourRequestService -> TourRequestRepository : GetInvalidLocationsAndLanguages(user.Id)
+activate TourRequestRepository
+TourRequestRepository --> TourRequestService : List<string> invalidLocationsLanguages
+deactivate TourRequestRepository
+TourRequestService --> NewTourNotificationViewModel: List<string> invalidLocationsLanguages
+deactivate TourRequestService
+loop foreach item in invalidLocationsLanguages
+  loop foreach tour in allTours
+    opt tour.Language.Equals(item) || tour.Location.Equals(item)
+      NewTourNotificationViewModel -> suggestedTours : suggestedTours.Add(tour)
+    end
+  end
+end
+
+NewTourNotificationViewModel -> TourService: NotifyNewTour(suggestedTours.ToList())
+activate TourService
+TourService -> TourRepository: NotifyNewTour(suggestedTours.ToList())
+activate TourRepository
+deactivate TourRepository
+deactivate TourService
+deactivate suggestedTours
+
+NewTourNotificationViewModel -> NewTourNotificationViewModel: LoadToursFromCsv()
+
+NewTourNotificationViewModel -> Tours**: new ObservableCollection<Tour>() Tours
+activate Tours
+NewTourNotificationViewModel -> csvConfig**: new CsvConfiguration()
+activate csvConfig
+NewTourNotificationViewModel -> streamReader**: new StreamReader(csvFilePath)
+activate streamReader
+NewTourNotificationViewModel -> csvReader**: new CsvReader(reader, csvConfig)
+activate csvReader 
+loop while csv.Read()
+  NewTourNotificationViewModel -> Tour**: <<create>>
+  activate Tour
+  Tour --> NewTourNotificationViewModel: Tour
+  NewTourNotificationViewModel -> Tours: Add(tour)
+end
+deactivate Tour
+deactivate Tours
+deactivate csvReader
+deactivate streamReader
+deactivate csvConfig
+deactivate NewTourNotificationViewModel
+
+@enduml

@@ -1,0 +1,125 @@
+<Window x:Class="BookingApp.View.Tourist.TourWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Tour Search" Height="550" Width="815" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style x:Key="HoverButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="102"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="Margin" Value="0 0 10 0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Gainsboro"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="PaleTurquoise">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <Button Content="Follow/Join Tour" Click="OpenFollowJoinPage_Click" Style="{StaticResource HoverButtonStyle}"/>
+            <Button Content="Vouchers" Click="OpenVouchersPage_Click" Style="{StaticResource HoverButtonStyle}"/>
+            <Button Content="Rate Tours" Click="OpenTourReviewPage_Click" Style="{StaticResource HoverButtonStyle}"/>
+            <Button Content="Create Request" Click="OpenCreateTourRequestPage_Click" Style="{StaticResource HoverButtonStyle}"/>
+            <Button Content="Statistics" Click="OpenRequestStatisticsPage_Click" Style="{StaticResource HoverButtonStyle}" />
+            <Button Content="Notifications" Click="OpenNotificationsPage_Click" Style="{StaticResource HoverButtonStyle}"/>
+            <Button Content="Logout" Click="LogOut_Click" Style="{StaticResource HoverButtonStyle}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="10 0 10 0" HorizontalAlignment="Stretch">
+            <TextBlock Text="Search Tours" FontSize="20" FontWeight="Bold" Margin="0 0 0 10" Foreground="Sienna" FontFamily="Tahoma"/>
+            <Line X1="0" Y1="0" X2="0" Y2="10" Stroke="Transparent"/>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                <TextBlock Text="Location (City Country):" Margin="0 0 5 0" FontFamily="Tahoma"/>
+                <TextBox x:Name="LocationText" Text="{Binding Location, UpdateSourceTrigger=PropertyChanged}" Width="158" FontFamily="Tahoma" HorizontalAlignment="Stretch" PreviewTextInput="LocationTextBox_PreviewTextInput"/>
+                <TextBlock Text="Duration:" Margin="10 0 5 0" FontFamily="Tahoma"/>
+                <TextBox x:Name="DurationText" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" Width="60" FontFamily="Tahoma" HorizontalAlignment="Stretch" PreviewTextInput="DurationTextBox_PreviewTextInput"/>
+                <TextBlock Text="Language:" Margin="10 0 5 0" FontFamily="Tahoma"/>
+                <TextBox x:Name="LanguageText" Text="{Binding Language, UpdateSourceTrigger=PropertyChanged}" Width="159" FontFamily="Tahoma" HorizontalAlignment="Stretch" PreviewTextInput="LanguageTextBox_PreviewTextInput"/>
+                <TextBlock Text="Group Size:" Margin="10 0 5 0" FontFamily="Tahoma"/>
+                <TextBox x:Name="GroupSizeText" Text="{Binding GroupSize, UpdateSourceTrigger=PropertyChanged}" Width="60" FontFamily="Tahoma" HorizontalAlignment="Stretch" PreviewTextInput="GroupSizeTextBox_PreviewTextInput"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock x:Name="LocationErrorText" Text="Only letters are allowed for location search, please insert any letter in textbox" Visibility="Collapsed" Foreground="Red" Margin="1 2 0 0" FontFamily="Tahoma"/>
+                <TextBlock x:Name="DurationErrorText" Text="Only numbers are allowed for duration search, please insert any number in textbox" Visibility="Collapsed" Foreground="Red" Margin="1 2 0 0" FontFamily="Tahoma"/>
+                <TextBlock x:Name="LanguageErrorText" Text="Only letters are allowed for language search, please insert any letter in textbox" Visibility="Collapsed" Foreground="Red" Margin="1 2 0 0" FontFamily="Tahoma"/>
+                <TextBlock x:Name="GroupSizeErrorText" Text="Only numbers are allowed for group size search, please insert any number in textbox" Visibility="Collapsed" Foreground="Red" Margin="1 2 0 0" FontFamily="Tahoma"/>
+            </StackPanel>
+
+                <ListBox x:Name="lstTours" ItemsSource="{Binding TourDtos, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="lstTours_SelectionChanged" Margin="0 10 0 0 ">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Margin" Value="5 1 5 0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Tour.Name, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Margin="5 5 0 5" FontFamily="Tahoma"/>
+                            <TextBlock Grid.Column="1" Text=" - location: " Margin="0 5" FontFamily="Tahoma"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Tour.Location, UpdateSourceTrigger=PropertyChanged}" Margin="0 5" FontFamily="Tahoma"/>
+                            <TextBlock Grid.Column="3" Text=", duration: " Margin="0 5" FontFamily="Tahoma"/>
+                            <TextBlock Grid.Column="4" Text="{Binding Tour.Duration, UpdateSourceTrigger=PropertyChanged}" Margin="0 5" FontFamily="Tahoma"/>
+                            <TextBlock Grid.Column="5" Text="h, language: " Margin="0 5" FontFamily="Tahoma"/>
+                            <TextBlock Grid.Column="6" Text="{Binding Tour.Language, UpdateSourceTrigger=PropertyChanged}" Margin="0 5" FontFamily="Tahoma"/>
+                            <TextBlock Grid.Column="7" Text=", date and time: " Margin="0 5" FontFamily="Tahoma"/>
+                            <TextBlock Grid.Column="8" Text="{Binding ScheduledTour.Start, StringFormat='{}{0:dd.MM.yyyy. HH:mm}'}" Margin="0 5" FontFamily="Tahoma"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Border BorderBrush="DarkGray" BorderThickness="1" Margin="0 10 0 0">
+                <TextBlock Text=" Clicking on a tour will open the booking page" FontSize="12" Padding="5, 2, 5, 1" Background="White" Foreground="Black" FontFamily="Tahoma" Height="20"/>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>

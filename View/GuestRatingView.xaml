@@ -1,0 +1,35 @@
+﻿<Page x:Class="BookingApp.View.GuestRatingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp.View" d:DataContext="{d:DesignInstance Type=local:GuestRatingView}"
+        mc:Ignorable="d"
+        d:DesignHeight="768" d:DesignWidth="1024"
+        Background="#272537"
+        Title="GuestRatingView" >
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Cleanlines Rating (1-5):"/>
+            <ComboBox SelectedIndex="{Binding CleanlinessRating}">
+                     <ComboBoxItem Content="1"/>
+                     <ComboBoxItem Content="2"/>
+                     <ComboBoxItem Content="3"/>
+                     <ComboBoxItem Content="4"/>
+                     <ComboBoxItem Content="5"/>
+            </ComboBox>
+            <TextBlock Text="Rule Adherence (1-5):"/>
+            <ComboBox SelectedIndex="{Binding RuleAdherenceRating}">
+                     <ComboBoxItem Content="1"/>
+                     <ComboBoxItem Content="2"/>
+                     <ComboBoxItem Content="3"/>
+                     <ComboBoxItem Content="4"/>
+                     <ComboBoxItem Content="5"/>
+            </ComboBox>
+            <TextBlock Text="Additional Comment:"/>
+            <TextBox Text="{Binding AdditionalComment}"/>
+
+            <Button Content="Submit Rating" Click="SubmitRating_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,41 @@
+@startuml
+enum TourRequestStatus {
+    Waiting
+    Accepted
+    Invalid
+}
+
+class TourRequest {
+    +Id: int
+    +Location: string
+    +Description: string
+    +Language: string
+    +TouristNumber: int
+    +Start: DateTime
+    +End: DateTime
+    +Status: TourRequestStatus
+
+    +TourRequest()
+    +TourRequest(location: string, description: string, language: string, touristNumber: int, tourists: List<Tourist>, start: DateTime, end: DateTime, status: TourRequestStatus)
+    +{static} CalculateStatistics(requests: List<TourRequest>): (int, int, int, double, double, double)
+    +{static} CalculateRequestByLabel(requests: List<TourRequest>, label: string): Dictionary<string, int>
+    +ToCSV(): string[]
+    +FromCSV(values: string[])
+}
+
+class Tourist {
+    +TouristId: int
+    +Name: string
+    +Surname: string
+    +Age: int
+    +KeyPointName: string
+    +IsMarkable: bool
+
+    +Tourist()
+    +Tourist(touristId: int, name: string, surname: string, age: int, keyPointName: string, isMarkable: bool)
+    +ToCSV(): string
+    +{static} FromCSV(value: string): Tourist
+}
+
+TourRequest "0..*" *-- "1..*" Tourist
+@enduml

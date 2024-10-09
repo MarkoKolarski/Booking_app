@@ -1,0 +1,223 @@
+﻿<Window x:Class="BookingApp.View.OwnerMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp.View"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="768" Width="1024"
+        WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        >
+
+    <Window.Resources>
+        <Style x:Key="BenuButton" TargetType="Button">
+            <Setter Property="Background" Value="#556b2f"/>
+            <Setter Property="Foreground" Value="#ffe4c4"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="Width" Value="160"/>
+            <Setter Property="Height" Value="85"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#ffe4c4" CornerRadius="15">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="77"/>
+                <!-- Header -->
+                <RowDefinition Height="*"/>
+                <!-- Content -->
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Grid.ColumnSpan="3" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="booking" FontSize="60" FontWeight="Bold" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" Foreground="Black"
+                               />
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                        <Button Background="Transparent" Margin="0,0,15,0" BorderThickness="0">
+                            <Image Source="/Resources/Images/quest.png" Width="77" Height="55" Stretch="Uniform" />
+                        </Button>
+                        <Button Background="Transparent" Margin="0,0,15,0" BorderThickness="0">
+                            <Image Source="/Resources/Images/moon.png" Width="77" Height="55" Stretch="Uniform" />
+                        </Button>
+                        <Button Background="Transparent" Margin="0,0,15,0" BorderThickness="0">
+                            <Image Source="/Resources/Images/chlang.png" Width="77" Height="55" Stretch="Uniform"/>
+                        </Button>
+                        <Button Background="Transparent" Margin="0,0,15,0" BorderThickness="0">
+                            <Image Source="/Resources/Images/notify.png" Width="77" Height="55" Stretch="Uniform"/>
+                        </Button>
+                    </StackPanel>
+                    
+                </Grid>
+            </Border>
+
+            <!-- Content -->
+            <Grid Grid.Row="1" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="-7,19,4,4">
+                    <Button Content="lodging" Style="{StaticResource BenuButton}" 
+                        Margin="10,0,0,27" Command="{Binding AddAccommodation}"
+                     />
+                    <Button 
+                         Width="160" 
+                         Height="85"
+                         Background="#556b2f"
+                         Foreground="#ffe4c4"   
+                        Margin="10,0,0,0"
+                         FontWeight="Bold" FontStyle="Italic" FontSize="32"
+                         Command="{Binding ShowRescheduleRequests}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <!-- Oznaka za prikaz broja obaveštenja -->
+                                    <Border x:Name="NotificationBorder" Visibility="Visible" Background="Red" CornerRadius="10" Width="30" Height="30" HorizontalAlignment="Right" Margin="0,-15,-5,0">
+                                        <TextBlock x:Name="NotificationTextBlock" Text="{Binding NumberOfNotifications}" Foreground="#ffe4c4" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <!-- Standardni sadržaj dugmeta (inbox ikona) -->
+                                    <ContentPresenter Content="inbox"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <!-- DataTrigger koji postavlja Visibility na Visible kada je broj obaveštenja različit od nule -->
+                                    <DataTrigger Binding="{Binding NumberOfNotifications}" Value="0">
+                                        <Setter TargetName="NotificationBorder" Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding NumberOfNotifications}" Value="0">
+                                        <Setter TargetName="NotificationTextBlock" Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button Content="reviews" Margin="10,27,0,27"
+                        Style="{StaticResource BenuButton}" Command="{Binding ShowReviews}"
+                     />
+                    <Button Content="forum" Margin="10,0,0,27" Style="{StaticResource BenuButton}"
+                     Command="{Binding ShowStatistic}"
+                     />
+                    <Button Content="rate guest" Margin="10,0,0,27"
+                        Style="{StaticResource BenuButton}" Command="{Binding ShowLastCheckouts}"
+                     />
+                    <StackPanel Orientation="Horizontal"  Width="170" Height="80" Margin="0,0,0,0">
+                        <Image Width="70" Height="65" Source="/Resources/Images/profile.png" RenderTransformOrigin="0.58,0.411"/>
+                        <Button Content="Profile" Width="100" FontSize="28" BorderThickness="0" Background="Transparent" Foreground="Black" FontWeight="ExtraBold" Command="{Binding ShowProfilePage}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Placeholder for content -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Grid.ColumnSpan="2">
+                    <Border Width="780" Height="600" Margin="20,20,20,0">
+                        <StackPanel  Orientation="Horizontal">
+                            <Border Width="200" Height="300" Margin="20" ></Border>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+
+                <Grid Grid.Column="1" Height="685" VerticalAlignment="Center" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="77"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="start page" FontSize="40" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" Margin="15,0,0,0" Height="53"/>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                        <StackPanel Orientation="Vertical" Margin="20,0,20,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="350" Height="250" Margin="10,30,20,30" BorderThickness="3" CornerRadius="15" BorderBrush="#556b2f">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="170"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Image Grid.Row="0" Source="/Resources/Images/apartment.png" Stretch="Uniform"/>
+                                        <Button Grid.Row="1" Content="renovations" BorderThickness="0" Width="300" Height="70" Background="Transparent" FontWeight="ExtraBold" FontSize="35" Command="{Binding ShowRenovations}" RenderTransformOrigin="0.509,0.559"/>
+                                    </Grid>
+                                </Border>
+                                
+                                <Border Width="350" Height="250" Margin="10,30,20,30" CornerRadius="15" BorderThickness="3" BorderBrush="#556b2f">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="170"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Image Source="/Resources/Images/rating.png" Width="300" Stretch="Uniform" Height="250"/>
+                                        <Button Grid.Row="1" Content="rate guests" BorderThickness="0" Width="300" Height="70" Background="Transparent" FontWeight="ExtraBold" FontSize="35" Command="{Binding ShowLastCheckouts}" RenderTransformOrigin="0.509,0.559"/>
+                                    </Grid>
+                                 </Border>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="350" Height="250" Margin="10,30,20,30" BorderThickness="3" CornerRadius="15" BorderBrush="#556b2f">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="170"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Image Grid.Row="0" Source="../Resources/Images/req.png" Stretch="Uniform"/>
+                                        <Button Grid.Row="1" Content=" all accommodation" BorderThickness="0" Width="330" Height="70" Background="Transparent" FontWeight="ExtraBold" FontSize="35" Command="{Binding ShowAllAccommodations}" RenderTransformOrigin="0.509,0.559"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border Width="350" Height="250" Margin="10,30,20,30" CornerRadius="15" BorderThickness="3" BorderBrush="#556b2f">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="170"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Image Source="/Resources/Images/forumpng.png" Width="300" Stretch="Uniform" Height="250"/>
+                                        <Button Grid.Row="1" Content="forum" BorderThickness="0" Width="300" Height="70" Background="Transparent" FontWeight="ExtraBold" FontSize="35" Command="{Binding AddAccommodation}" RenderTransformOrigin="0.509,0.559"/>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="350" Height="250" Margin="10,30,20,30" BorderThickness="3" CornerRadius="15" BorderBrush="#556b2f">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="170"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Image Grid.Row="0" Source="/Resources/Images/req.png" Stretch="Uniform"/>
+                                        <Button Grid.Row="1" Content="postpond request" BorderThickness="0" Width="330" Height="70" Background="Transparent" FontWeight="ExtraBold" FontSize="35" Command="{Binding AddAccommodation}" RenderTransformOrigin="0.509,0.559"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border Width="350" Height="250" Margin="10,30,20,30" CornerRadius="15" BorderThickness="3" BorderBrush="#556b2f">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="170"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Image Source="/Resources/Images/forumpng.png" Width="300" Stretch="Uniform" Height="250"/>
+                                        <Button Grid.Row="1" Content="forum" BorderThickness="0" Width="300" Height="70" Background="Transparent" FontWeight="ExtraBold" FontSize="35" Command="{Binding AddAccommodation}" RenderTransformOrigin="0.509,0.559"/>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+
+                <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Column="1" Navigated="MainFrame_Navigated" Grid.ColumnSpan="2" />
+            </Grid>
+        </Grid>
+    </Border>
+
+</Window>

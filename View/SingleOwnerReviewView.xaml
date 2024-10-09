@@ -1,0 +1,103 @@
+﻿<Page x:Class="BookingApp.View.SingleOwnerReviewView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SingleOwnerReviewView"
+      Background="#ffe4c4">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Command="{Binding GetBack}" Background="Transparent" BorderThickness="0">
+                <Image Source="../Resources/Images/backarr.png" Height="75" Width="75" Stretch="Uniform"/>
+            </Button>
+            <TextBlock Text="guest reviews" FontSize="44" HorizontalAlignment="Left" Margin="25,0,0,0" FontWeight="ExtraBold" Foreground="Black" VerticalAlignment="Center" Grid.Row="0"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="165"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border  Grid.Row="0" CornerRadius="15" BorderBrush="#556b2f" BorderThickness="3" Margin="15,5,20,0">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                            <Border CornerRadius="15" Margin="20,0,0,0" BorderThickness="3" BorderBrush="#556b2f" Width="220" Background="White" Height="48" HorizontalAlignment="Center">
+                                <TextBlock Text="name" FontSize="30" FontWeight="Bold" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <Border CornerRadius="15" Margin="20,0,0,0" BorderThickness="3" BorderBrush="#556b2f" Width="220" Background="White" Height="48" HorizontalAlignment="Center">
+                                <TextBlock Text="cleanliness" FontSize="30" FontWeight="Bold" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <Border CornerRadius="15" Margin="20,0,0,0" BorderThickness="3" BorderBrush="#556b2f" Width="220" Background="White" Height="48" HorizontalAlignment="Center">
+                                <TextBlock Text="guests" FontSize="30" FontWeight="Bold" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                            <TextBlock Text="{Binding Rating.GuestName}" Margin="35,10,10,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Width="202"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="25,10,10,0">
+                                <Image Source="{Binding Rating.CleanlinessImages[0]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding Rating.CleanlinessImages[1]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding Rating.CleanlinessImages[2]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding Rating.CleanlinessImages[3]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding Rating.CleanlinessImages[4]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="25,10,10,0">
+                                <Image Source="{Binding Rating.OwnerCorrectnessImages[0]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding Rating.OwnerCorrectnessImages[1]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding Rating.OwnerCorrectnessImages[2]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding Rating.OwnerCorrectnessImages[3]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                                <Image Source="{Binding Rating.OwnerCorrectnessImages[4]}" Width="40" Height="35" Margin="0,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Grid.Row="1" Text="comment:" FontSize="28" Margin="25,10,0,0" FontWeight="Bold"/>
+                <Border Grid.Row="2" Padding="8" CornerRadius="15" BorderBrush="#556b2f" BorderThickness="3" Margin="15,10,20,0">
+                    <TextBlock Text="{Binding Rating.Comment}" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="24" FontWeight="Bold" Margin="5"/>
+                </Border>
+
+                <Border Margin="15,15,20,0" Grid.Row="3" CornerRadius="15" Background="Transparent" BorderBrush="#556b2f" BorderThickness="3">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="images:" FontSize="28" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                        <Image Source="{Binding CurrentImage}" Grid.Row="1" Grid.Column="1" Width="390" Height="390" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="79,10,50,0"/>
+
+                        <Button Command="{Binding PreviousImageCommand}" BorderThickness="0" Background="Transparent" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
+                            <Image Source="../Resources/Images/leftImageArrow.png" Height="75" Width="75" Stretch="Uniform"/>
+                        </Button>
+                        <Button Command="{Binding NextImageCommand}" BorderThickness="0" Background="Transparent" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center">
+                            <Image Source="../Resources/Images/rightImageArrow.png" Height="75" Width="75" Stretch="Uniform"/>
+                        </Button>
+                       
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>
