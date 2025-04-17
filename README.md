@@ -48,6 +48,12 @@ As a **Guest**, you interact primarily with accommodations, bookings, and commun
 
 > 🏆 Super-Guest status unlocks community engagement via the built-in forum system.
 
+### 📽️ Guest Role Demo (GIF)
+
+Here is a short visual demonstration of the **Guest** role in action:
+
+![BookingApp Guest Tutorial](Resources/Video/Tutorijal.gif)
+
 ---
 
 ## 🔐 Login Credentials
