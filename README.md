@@ -11,7 +11,7 @@
 
 The application is structured using the **MVVM (Model-View-ViewModel)** design pattern for WPF and clean architectural principles for the console version. It supports multiple user roles — **Owners**, **Guests**, **Guides**, and **Tourists** — each with tailored functionalities.
 
-> 🟢 This README emphasizes the **Guest role**, which was actively developed and tested by the author of this project.
+> 🟢 This README emphasizes the **Guest role**, which was actively developed and tested by me.
 
 ## ✨ Features
 
@@ -28,7 +28,7 @@ Each role includes standard and **"Super-user"** privileges, unlocking advanced 
 
 ---
 
-## 🎯 Guest Experience (Your Role)
+## 🎯 Guest Experience (My Role)
 
 As a **Guest**, you interact primarily with accommodations, bookings, and community features. This role is designed to provide a smooth and intuitive reservation experience.
 
@@ -129,7 +129,7 @@ BookingApp/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/BookingApp.git
+   git clone https://github.com/MarkoKolarski/Booking_app.git
    ```
 
 2. **Open the solution** in Visual Studio.
